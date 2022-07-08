@@ -1,20 +1,23 @@
 {
-  "name": "nodeapi",
+  "name": "NodeAPI",
   "version": "1.0.0",
-  "description": "NodeAPI",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kaushikpuka1998/NodeAPI.git"
   },
-  "author": "Kgstrivers",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kaushikpuka1998/NodeAPI/issues"
   },
-  "homepage": "https://github.com/kaushikpuka1998/NodeAPI#readme"
+  "homepage": "https://github.com/kaushikpuka1998/NodeAPI#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
