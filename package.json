@@ -1,0 +1,20 @@
+{
+  "name": "nodeapi",
+  "version": "1.0.0",
+  "description": "NodeAPI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaushikpuka1998/NodeAPI.git"
+  },
+  "author": "Kgstrivers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaushikpuka1998/NodeAPI/issues"
+  },
+  "homepage": "https://github.com/kaushikpuka1998/NodeAPI#readme"
+}
