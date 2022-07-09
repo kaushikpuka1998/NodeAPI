@@ -68,6 +68,32 @@ app.post('/insertdata',(req,res)=>{
     
 })
 
+
+app.get('/alldata',(req,res)=>{
+
+
+    let name = req.body.name;
+    let videolink = req.body.videolink;
+
+    let sql = "SELECT * from nodevideodata";
+
+    db.query(sql,(err,result)=>{
+        if(err)
+        {
+            throw err;
+        }
+        res.send({  
+            "result": true,
+            "data": JSON.parse(JSON.stringify(result))  
+        })
+       console.log("retrived Data:",result);
+       res.end();
+    })
+
+
+    
+})
+
 app.listen(
     8080,()=>{
         console.log(`Server running on Port ${8080}`);
