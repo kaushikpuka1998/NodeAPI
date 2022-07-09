@@ -2,9 +2,11 @@ const app = require('express')();
 
 
 
-app.get('/',(req,res)=>{
-    res.status(200).send("Kaushik Ghosh"
-   );
+app.get('/data',(req,res)=>{
+    res.status(200).send({
+             "name":"Kaushik Ghosh",
+             "College":"Coochbehar Government Engineering College"
+        });
 });
 
 app.listen(
