@@ -1,5 +1,7 @@
 const app = require('express')();
 const mysql = require('mysql');
+const bodyparser = require('body-parser');
+app.use(bodyparser.json());
 require ('dotenv').config();
 
 
@@ -38,6 +40,33 @@ app.get('/data',(req,res)=>{
              "College":"Coochbehar Government Engineering College"
         });
 });
+
+app.post('/insertdata',(req,res)=>{
+
+
+    let name = req.body.name;
+    let videolink = req.body.videolink;
+
+    let sql = "INSERT INTO nodevideodata(name,videolink) values (?,?)";
+
+    db.query(sql,[name,videolink],(err,result)=>{
+        if(err)
+        {
+            throw err;
+        }
+        res.status(200).send({
+            "success":true,
+            "message" :"Data Inserted Successfully",
+            "data":{"name": name,"videolink": videolink}
+       });
+
+       console.log(req.body);
+        res.end();
+    })
+
+
+    
+})
 
 app.listen(
     8080,()=>{
