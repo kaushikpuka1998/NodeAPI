@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -19,6 +18,8 @@
   },
   "homepage": "https://github.com/kaushikpuka1998/NodeAPI#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongodb": "^3.5.2",
+    "nodemon": "^2.0.2"
   }
 }
