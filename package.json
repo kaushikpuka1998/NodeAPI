@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/kaushikpuka1998/NodeAPI#readme",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mongodb": "^3.5.2",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.2"
   }
 }
