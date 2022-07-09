@@ -37,6 +37,8 @@ db.connect(err=>{
 })
 
 
+
+///////////////////////// DATA API //////////////////////////
 app.get('/data',auth,(req,res)=>{
     res.json({
              "name":"Kaushik Ghosh",
@@ -45,39 +47,80 @@ app.get('/data',auth,(req,res)=>{
         });
 });
 
-app.post('/login',(req,res)=>{
-   
-    const value= {
-        email:req.body.name,
-        password:req.body.password,
-    }
 
-    if(token == undefined)
-    {
-        token = jwt.sign({value},process.env.accesstoken);
-    res.status(200).send(
-        {
-            message:"Logged In Successfully",
-            accesstoken: token
-        });
 
-        console.log(token);
-        
-    }else{
-        res.status(200).send(
+
+
+///////////////////////// LOGIN API //////////////////////////
+app.post('/login' , (req,res)=>{
+
+    try{
+        const value= {
+            email:req.body.email,
+            pass: req.body.password,
+        }
+        pass = value.pass;
+        let sql = 'Select * from allusersignup where email = ?';
+        db.query(sql, [value.email],async (err,result)=>{
+            if(err)
             {
-                message:"Already LoggedIn",
-                accesstoken: token
-            });
+                res.send({  
+                    "result": false,
+                    "error":err,
+                    "data": []  
+                })
+            }else
+            {   
+            {
+                var fg = JSON.parse(JSON.stringify(result[0]))
+                //console.log(fg.password);
+                const cmp = await bcrypt.compare(pass,fg.password)
+
+                if(cmp)
+                {
+                      if(token == undefined)
+                        {
+                            token = jwt.sign({value},process.env.accesstoken);
+                            res.send({  
+                                "result": true,
+                                message:"Logged In Successfully",
+                                accesstoken: token,
+                                "data": JSON.parse(JSON.stringify(result))  
+                            })
+                            
+                        }else{
+                        res.status(200).send(
+                        {
+                            message:"Already LoggedIn",
+                            accesstoken: token
+                        });
+                    }
+                    
+                }
+                else{
+                    res.send({  
+                        "result": false,
+                        "data": []
+                    })
+                }
+            } 
+            }
+            
+           //console.log("retrived Data:",result);
+           res.end();
+        })
     }
-    
-    
-
-        
-
+    catch(ex)
+    {
+        console.log("Error ========>"+ex);
+    }
 });
 
 
+
+
+
+///////////////////////// LOGOUT API //////////////////////////
 app.post('/logout',(req,res)=>{
    
     var successvalue,msg;
@@ -100,6 +143,11 @@ app.post('/logout',(req,res)=>{
     
 });
 
+
+
+
+
+///////////////////////// MIDDLEWIRE //////////////////////////
 function auth(req,res,next)
 {
     if(token !== undefined)
@@ -125,6 +173,9 @@ function auth(req,res,next)
     }
 }
 
+
+
+///////////////////////// VIDEO INSERT API //////////////////////////
 app.post('/insertdata',(req,res)=>{
 
 
@@ -157,6 +208,11 @@ app.post('/insertdata',(req,res)=>{
 })
 
 
+
+
+
+
+///////////////////////// SIGNUP API //////////////////////////
 app.post('/signup',async (req,res)=>{
 
 
@@ -191,6 +247,9 @@ app.post('/signup',async (req,res)=>{
     
 })
 
+
+
+///////////////////////// ALL VIDEO DATA API //////////////////////////
 
 app.get('/alldata',auth,(req,res)=>{
 
