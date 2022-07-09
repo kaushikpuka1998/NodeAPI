@@ -2,6 +2,7 @@ const app = require('express')();
 const mysql = require('mysql');
 const bodyparser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 app.use(bodyparser.json());
 require ('dotenv').config();
@@ -145,6 +146,41 @@ app.post('/insertdata',(req,res)=>{
             "success":true,
             "message" :"Data Inserted Successfully",
             "data":{"name": name,"videolink": videolink}
+       });
+
+       console.log(req.body);
+        res.end();
+    })
+
+
+    
+})
+
+
+app.post('/signup',async (req,res)=>{
+
+
+    let name = req.body.name;
+    let email = req.body.email;
+    let password = req.body.password;
+    let hash = await bcrypt.hash(password,10);
+    let phone = req.body.phone;
+
+    let sql = "INSERT INTO allusersignup(name,email,password,phone) values (?,?,?,?)";
+
+    db.query(sql,[name,email,hash,phone],(err,result)=>{
+        if(err)
+        {
+            res.send({  
+                "success": false,
+                "error":err,
+                "data": []  
+            })
+        }
+        res.status(200).send({
+            "success":true,
+            "message" :"Signed Up Successfully Successfully",
+            "data":{"name": name,"email":email,"phone": phone,"hash":hash}
        });
 
        console.log(req.body);
