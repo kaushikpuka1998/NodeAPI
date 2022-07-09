@@ -1,6 +1,8 @@
 const app = require('express')();
 const mysql = require('mysql');
 const bodyparser = require('body-parser');
+const jwt = require('jsonwebtoken');
+
 app.use(bodyparser.json());
 require ('dotenv').config();
 
@@ -14,7 +16,7 @@ const db = mysql.createConnection({
 
 })
 
-
+var token;
 db.connect(err=>{
     if(err)
     {
@@ -34,12 +36,54 @@ db.connect(err=>{
 })
 
 
-app.get('/data',(req,res)=>{
-    res.status(200).send({
+app.get('/data',auth,(req,res)=>{
+    res.json({
              "name":"Kaushik Ghosh",
              "College":"Coochbehar Government Engineering College"
         });
 });
+
+app.post('/login',(req,res)=>{
+   
+    const value= {
+        email:req.body.name,
+        password:req.body.password,
+    }
+
+    token = jwt.sign({value},process.env.accesstoken);
+    res.status(200).send(
+        {
+            message:"Logged In Successfully",
+            accesstoken: token});
+
+            console.log(token);
+
+});
+
+function auth(req,res,next)
+{
+    if(token !== undefined)
+    {
+
+        jwt.verify(token,process.env.accesstoken,(err,verified)=>{
+            if(err)
+            {
+                return res.status(404).send("Invalid Token");
+            }
+            req.user = verified;
+            next();
+        })
+       
+    }
+    else{
+        res.status(404).send(
+            {
+                success: false,
+                message:"Login Required"
+            }
+        )
+    }
+}
 
 app.post('/insertdata',(req,res)=>{
 
@@ -73,7 +117,7 @@ app.post('/insertdata',(req,res)=>{
 })
 
 
-app.get('/alldata',(req,res)=>{
+app.get('/alldata',auth,(req,res)=>{
 
 
     let name = req.body.name;
