@@ -1,5 +1,5 @@
 const app = require('express')();
-const port = process.env.port || 5000;
+
 
 
 app.get('/',(req,res)=>{
@@ -8,8 +8,8 @@ app.get('/',(req,res)=>{
 });
 
 app.listen(
-    port,()=>{
-        console.log(`Server running on Port ${port}`);
+    8080,()=>{
+        console.log(`Server running on Port ${8080}`);
     }
 )
 
