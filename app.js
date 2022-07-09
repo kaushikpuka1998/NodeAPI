@@ -39,7 +39,8 @@ db.connect(err=>{
 app.get('/data',auth,(req,res)=>{
     res.json({
              "name":"Kaushik Ghosh",
-             "College":"Coochbehar Government Engineering College"
+             "College":"Coochbehar Government Engineering College",
+                "userInfo" : req.user
         });
 });
 
@@ -50,14 +51,52 @@ app.post('/login',(req,res)=>{
         password:req.body.password,
     }
 
-    token = jwt.sign({value},process.env.accesstoken);
+    if(token == undefined)
+    {
+        token = jwt.sign({value},process.env.accesstoken);
     res.status(200).send(
         {
             message:"Logged In Successfully",
-            accesstoken: token});
+            accesstoken: token
+        });
 
-            console.log(token);
+        console.log(token);
+        
+    }else{
+        res.status(200).send(
+            {
+                message:"Already LoggedIn",
+                accesstoken: token
+            });
+    }
+    
+    
 
+        
+
+});
+
+
+app.post('/logout',(req,res)=>{
+   
+    var successvalue,msg;
+    if(token !== undefined)
+    {
+        token = undefined;
+        successvalue = true;
+        msg = "Logged Out Successfully"
+    } 
+    else{
+        successvalue = false;
+        msg = "Already Logged Out"
+    }
+
+    res.status(200).send(
+        {
+            success:successvalue,
+            message:msg,});
+    
+    
 });
 
 function auth(req,res,next)
