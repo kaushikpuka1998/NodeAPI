@@ -52,7 +52,11 @@ app.post('/insertdata',(req,res)=>{
     db.query(sql,[name,videolink],(err,result)=>{
         if(err)
         {
-            throw err;
+            res.send({  
+                "success": false,
+                "error":err,
+                "data": []  
+            })
         }
         res.status(200).send({
             "success":true,
@@ -80,12 +84,19 @@ app.get('/alldata',(req,res)=>{
     db.query(sql,(err,result)=>{
         if(err)
         {
-            throw err;
+            res.send({  
+                "result": false,
+                "error":err,
+                "data": []  
+            })
+        }else
+        {
+            res.send({  
+                "result": true,
+                "data": JSON.parse(JSON.stringify(result))  
+            })
         }
-        res.send({  
-            "result": true,
-            "data": JSON.parse(JSON.stringify(result))  
-        })
+        
        console.log("retrived Data:",result);
        res.end();
     })
