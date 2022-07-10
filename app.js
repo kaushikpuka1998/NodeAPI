@@ -120,6 +120,65 @@ app.post('/login' , (req,res)=>{
 
 
 
+
+
+
+
+
+
+
+///////////////////////// EMAIL-ID CHECK API //////////////////////////
+app.post('/emailcheck' , (req,res)=>{
+
+    try{
+        const value= {
+            email:req.body.email,
+        }
+        pass = value.pass;
+        let sql = 'Select * from allusersignup where email = ?';
+        db.query(sql, [value.email],async (err,result)=>{
+            if(err)
+            {
+                res.send({  
+                    "result": false,
+                    "error":err,
+                    "data": []  
+                })
+            }else
+            {   
+            {
+                if(result.length>0)
+                {
+                    res.status(200).send(
+                        {
+                            success:false,
+                            message:"Already Email ID in use",
+                        });
+                }
+                else{
+                    res.status(200).send(
+                        {
+                            success:true,
+                            message:"Email ID Available",
+                        });
+                }
+            } 
+            }
+            
+           //console.log("retrived Data:",result);
+           res.end();
+        })
+    }
+    catch(ex)
+    {
+        console.log("Error ========>"+ex);
+    }
+});
+
+
+
+
+
 ///////////////////////// LOGOUT API //////////////////////////
 app.post('/logout',(req,res)=>{
    
