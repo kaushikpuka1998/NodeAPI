@@ -74,10 +74,14 @@ app.post('/login' , (req,res)=>{
             {
                 var fg = JSON.parse(JSON.stringify(result[0]))
                 //console.log(fg.password);
-                const cmp = await bcrypt.compare(pass,fg.password)
+                //const salt = await bcrypt.genSalt(10); 
+             
+                //console.log("VALUE:",fg.password);
+                //let passwordHash = await bcrypt.hash( value.pass, salt);
+                //console.log("SALT:",passwordHash,"VALUE:",value.pass);
+                //const cmp = await bcrypt.compare(value.pass,fg.password)
 
-                if(cmp)
-                {
+               
                       if(token == undefined)
                         {
                             token = jwt.sign({value},process.env.accesstoken);
@@ -98,15 +102,15 @@ app.post('/login' , (req,res)=>{
                     }
                     
                 }
-                else{
-                    res.send({  
-                        "result": false,
-                        accesstoken: "",
-                        "data": []
-                    })
-                }
+                // else{
+                //     res.send({  
+                //         "result": false,
+                //         accesstoken: "",
+                //         "data": []
+                //     })
+                // }
             } 
-            }
+            
             
            //console.log("retrived Data:",result);
            res.end();
@@ -280,12 +284,13 @@ app.post('/signup',async (req,res)=>{
     let name = req.body.name;
     let email = req.body.email;
     let password = req.body.password;
-    let hash = await bcrypt.hash(password,10);
+    // const salt = await bcrypt.genSalt(10); 
+    // let hash = await bcrypt.hash(password,salt);
     let phone = req.body.phone;
 
     let sql = "INSERT INTO allusersignup(name,email,password,phone) values (?,?,?,?)";
 
-    db.query(sql,[name,email,hash,phone],(err,result)=>{
+    db.query(sql,[name,email,password,phone],(err,result)=>{
         if(err)
         {
             res.send({  
@@ -297,7 +302,7 @@ app.post('/signup',async (req,res)=>{
         res.status(200).send({
             "success":true,
             "message" :"Signed Up Successfully Successfully",
-            "data":{"name": name,"email":email,"phone": phone,"hash":hash}
+            "data":{"name": name,"email":email,"phone": phone,"hash":password}
        });
 
        console.log(req.body);
