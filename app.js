@@ -91,6 +91,7 @@ app.post('/login' , (req,res)=>{
                         }else{
                         res.status(200).send(
                         {
+                            result: true,
                             message:"Already LoggedIn",
                             accesstoken: token
                         });
@@ -100,6 +101,7 @@ app.post('/login' , (req,res)=>{
                 else{
                     res.send({  
                         "result": false,
+                        accesstoken: "",
                         "data": []
                     })
                 }
