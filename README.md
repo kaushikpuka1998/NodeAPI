@@ -64,6 +64,7 @@ Nothing
 ## Video Data insertion API
 **POST** - http://nodeapi-env.eba-vsznnvpe.ap-south-1.elasticbeanstalk.com/insertdata
 ### Request Body
+```json
 {
     "name":"97. Interleaving String",
     "videolink":"https://www.youtube.com/watch?v=s2R6S6iflDM"
